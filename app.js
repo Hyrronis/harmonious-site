@@ -109,10 +109,6 @@
     $('.ticket-group[data-group="' + t.event + '"] .ticket-rows').appendChild(row);
   });
 
-  $("#paylist").innerHTML = C.paymentMethods.map(function (m, i) {
-    return '<label class="pay' + (m.id === "sur_place" ? " wide" : "") + '"><input type="radio" name="pay" value="' + m.id + '"' + (i === 0 ? " checked" : "") + "><span>" + esc(m.label) + "</span></label>";
-  }).join("");
-
   function updateSummary() {
     var total = 0, lines = [];
     C.tickets.forEach(function (t) {
@@ -147,17 +143,15 @@
     if (name.length < 3) return fail("Indiquez votre nom complet.", form.elements.name);
     if (phone.replace(/\D/g, "").length < 8) return fail("Indiquez un numéro de téléphone valide.", form.elements.phone);
     if (email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return fail("L'adresse e-mail semble incorrecte.", form.elements.email);
-    var pay = (form.querySelector('input[name="pay"]:checked') || {}).value;
     var items = C.tickets.filter(function (t) { return qty[t.id] > 0; }).map(function (t) { return { type: t.id, qty: qty[t.id] }; });
 
     submitBtn.disabled = true; submitBtn.textContent = "Enregistrement…";
-    rpc("harmonious_book", { p_name: name, p_phone: phone, p_email: email || null, p_items: items, p_payment_method: pay })
+    rpc("harmonious_book", { p_name: name, p_phone: phone, p_email: email || null, p_items: items, p_payment_method: "sur_place" })
       .then(function (res) {
         store.set({ code: res.code, phone: res.phone });
         showTicket(res, true);
         form.reset();
         C.tickets.forEach(function (t) { qty[t.id] = 0; $("output", t._row).textContent = "0"; t._row.classList.remove("on"); });
-        $('input[name="pay"]', form).checked = true;
         updateSummary();
       })
       .catch(function (err) { fail(err.message); })
@@ -165,8 +159,7 @@
   });
 
   // ---------- Affichage du pass ----------
-  var payLabel = function (id) { var m = C.paymentMethods.filter(function (x) { return x.id === id; })[0]; return m ? m.label : id; };
-  var STATUS = { en_attente: "Paiement en attente", paye: "Ticket confirmé", annule: "Réservation annulée" };
+  var STATUS = { en_attente: "En attente de confirmation", paye: "Ticket confirmé", annule: "Réservation annulée" };
 
   function qrDataUrl(text) {
     var qr = qrcode(0, "M"); qr.addData(text); qr.make();
@@ -179,24 +172,14 @@
     r.items.forEach(function (i) { events[i.event] = true; });
     var evLines = Object.keys(events).map(function (k) { var e = C.events[k]; return "<dd><b>" + esc(e.name) + "</b> · " + esc(e.date) + ", " + esc(e.time) + "<br><small class='muted'>" + esc(e.place) + "</small></dd>"; });
     var items = r.items.map(function (i) { return i.qty + " × " + esc(i.label); }).join("<br>");
-    var waText = encodeURIComponent("Bonjour, j'ai réservé pour Harmonious Chorale. Code : " + r.code + " · Montant : " + fmt(r.total) + ". Voici ma preuve de paiement :");
+    var waText = encodeURIComponent("Bonjour, j'ai réservé pour Harmonious Chorale. Mon code : " + r.code + ".");
     var payBlock = "";
     if (r.status === "en_attente") {
-      if (r.payment_method === "sur_place") {
-        payBlock = '<div class="pay-steps"><h4>Pour finaliser</h4><ol>' +
-          "<li>Contactez l'organisation au <b>" + esc(C.contactPhone) + "</b> pour régler votre ticket.</li>" +
-          "<li>Donnez votre code <b>" + esc(r.code) + "</b> et payez <b>" + fmt(r.total) + "</b>.</li>" +
-          "<li>Votre pass devient valide dès que le paiement est enregistré.</li></ol>" +
-          '<a class="btn btn-ghost btn-sm" href="https://wa.me/' + C.whatsapp + "?text=" + waText + '" target="_blank" rel="noopener">Écrire sur WhatsApp</a></div>';
-      } else {
-        payBlock = '<div class="pay-steps"><h4>Payez pour valider votre ticket</h4><ol>' +
-          "<li>Envoyez <b>" + fmt(r.total) + "</b> par <b>" + esc(payLabel(r.payment_method)) + "</b> au <span class='pay-number'>" + esc(C.paymentNumber) + "</span> (" + esc(C.paymentName) + ").</li>" +
-          "<li>Indiquez votre code <b>" + esc(r.code) + "</b> en motif si possible.</li>" +
-          "<li>Saisissez ci-dessous la référence de la transaction reçue par SMS.</li></ol>" +
-          (r.payment_ref ? "<p>Référence envoyée : <b>" + esc(r.payment_ref) + "</b>. Nous vérifions votre paiement.</p>" :
-            '<form class="ref-form" id="ref-form"><input name="ref" required placeholder="Référence de transaction" maxlength="80" aria-label="Référence de transaction"><button class="btn btn-gold btn-sm" type="submit">Envoyer</button></form><p class="form-error" id="ref-error" role="alert"></p>') +
-          '<p class="tiny muted" style="margin:.8rem 0 0">Besoin d\'aide ? <a href="https://wa.me/' + C.whatsapp + "?text=" + waText + '" target="_blank" rel="noopener">Envoyez votre preuve sur WhatsApp</a>.</p></div>';
-      }
+      payBlock = '<div class="pay-steps"><h4>Et maintenant ?</h4><ol>' +
+        "<li>Votre réservation est bien enregistrée sous le code <b>" + esc(r.code) + "</b>.</li>" +
+        "<li>Notre équipe vous contactera au <b>" + esc(r.phone) + "</b> pour finaliser votre réservation.</li>" +
+        "<li>Une fois confirmé, votre QR code deviendra votre ticket d'entrée.</li></ol>" +
+        '<p class="tiny muted" style="margin:0">Une question ? Appelez le <a href="tel:+225' + esc(C.contactPhone.replace(/\D/g, "")) + '">' + esc(C.contactPhone) + '</a> ou <a href="https://wa.me/' + C.whatsapp + "?text=" + waText + '" target="_blank" rel="noopener">écrivez sur WhatsApp</a>.</p></div>';
     }
     view.innerHTML =
       '<article class="pass" aria-labelledby="pass-title">' +
@@ -217,19 +200,11 @@
           '<button class="btn btn-ghost btn-sm" id="save-pass">Enregistrer l\'image du ticket</button>' +
         "</div>" +
         (r.status === "paye" ? '<p class="tiny muted" style="padding:0 24px 22px;margin:0">Présentez ce QR code à l\'entrée. Une capture d\'écran suffit.</p>' :
-          r.status === "en_attente" ? '<p class="tiny muted" style="padding:0 24px 22px;margin:0">Le QR code sera accepté à l\'entrée une fois le paiement confirmé.</p>' : "") +
+          r.status === "en_attente" ? '<p class="tiny muted" style="padding:0 24px 22px;margin:0">Le QR code sera accepté à l\'entrée une fois la réservation confirmée par notre équipe.</p>' : "") +
       "</article>";
     view.hidden = false;
     $("#lookup").querySelector(".eyebrow").textContent = "Une autre réservation ?";
 
-    var refForm = $("#ref-form");
-    if (refForm) refForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var btn = $("button", refForm); btn.disabled = true;
-      rpc("harmonious_submit_payment", { p_code: r.code, p_phone: r.phone, p_ref: refForm.ref.value })
-        .then(function (res) { showTicket(res, false); })
-        .catch(function (err) { $("#ref-error").textContent = err.message; btn.disabled = false; });
-    });
     $("#refresh-pass").addEventListener("click", function () { loadTicket(r.code, r.phone, true); });
     $("#save-pass").addEventListener("click", function () { downloadPass(r); });
     if (fresh) document.getElementById("mon-ticket").scrollIntoView({ behavior: "smooth" });

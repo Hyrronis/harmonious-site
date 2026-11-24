@@ -3,9 +3,6 @@ window.HC_CONFIG = {
   supabaseUrl: "https://ppkjipikcsdlbpcykmqn.supabase.co",
   supabaseKey: "sb_publishable_OWqKfeZ1z--YbJ-VSlGi6w_a_W9lo2I",
 
-  // Numéro qui reçoit les paiements Mobile Money (À CONFIRMER par l'organisateur)
-  paymentNumber: "07 77 87 75 33",
-  paymentName: "AJ Group Événementiel",
   contactPhone: "07 77 87 75 33",
   whatsapp: "2250777877533",
 
@@ -42,6 +39,6 @@ window.HC_CONFIG = {
     { id: "mtn_momo", label: "MTN MoMo" },
     { id: "moov_money", label: "Moov Money" },
     { id: "wave", label: "Wave" },
-    { id: "sur_place", label: "Payer au point de vente" }
+    { id: "sur_place", label: "Contact par l'équipe" }
   ]
 };

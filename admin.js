@@ -6,7 +6,7 @@
   var fmt = function (n) { return n.toLocaleString("fr-FR").replace(/ | /g, " ") + " FCFA"; };
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
   var PAY = {}; C.paymentMethods.forEach(function (m) { PAY[m.id] = m.label; });
-  var STATUS = { en_attente: "En attente", paye: "Payé", annule: "Annulé" };
+  var STATUS = { en_attente: "À contacter", paye: "Confirmé", annule: "Annulé" };
   var pin = null, data = [];
   try { pin = sessionStorage.getItem("hc_pin"); } catch (e) {}
 
@@ -57,8 +57,8 @@
     var count = function (list, ev) { return list.reduce(function (n, r) { return n + r.items.filter(function (i) { return i.event === ev; }).reduce(function (a, i) { return a + i.persons; }, 0); }, 0); };
     var sum = function (list) { return list.reduce(function (n, r) { return n + r.total; }, 0); };
     $("#stats").innerHTML = [
-      ["Encaissé", fmt(sum(paid))], ["En attente", fmt(sum(pending))],
-      ["Gala · places payées", count(paid, "gala")], ["Concert · places payées", count(paid, "concert")],
+      ["Confirmé", fmt(sum(paid))], ["À contacter", fmt(sum(pending))],
+      ["Gala · places confirmées", count(paid, "gala")], ["Concert · places confirmées", count(paid, "concert")],
       ["Réservations", data.length]
     ].map(function (s) { return '<div class="stat"><span>' + s[0] + "</span><b>" + s[1] + "</b></div>"; }).join("");
 
@@ -70,9 +70,9 @@
       return '<div class="row" data-code="' + esc(r.code) + '">' +
         '<div><span class="code">' + esc(r.code) + "</span><br><b>" + esc(r.full_name) + '</b><br><small><a href="tel:' + esc(r.phone) + '">' + esc(r.phone) + "</a>" + (r.email ? " · " + esc(r.email) : "") + "</small></div>" +
         "<div>" + r.items.map(function (i) { return i.qty + " × " + esc(i.label); }).join("<br>") + "<br><small>" + new Date(r.created_at).toLocaleString("fr-FR") + "</small></div>" +
-        "<div><b>" + fmt(r.total) + "</b><br><small>" + esc(PAY[r.payment_method] || r.payment_method) + (r.payment_ref ? "<br>Réf : " + esc(r.payment_ref) : "") + "</small></div>" +
+        "<div><b>" + fmt(r.total) + "</b>" + (r.payment_ref ? "<br><small>Réf : " + esc(r.payment_ref) + "</small>" : "") + "</div>" +
         '<div class="acts"><span class="status ' + r.status + '">' + STATUS[r.status] + "</span>" + (entered ? "<small>" + entered + "</small>" : "") +
-          (r.status !== "paye" ? '<button class="btn btn-gold btn-sm" data-set="paye">Marquer payé</button>' : '<button class="btn btn-ghost btn-sm" data-set="en_attente">Remettre en attente</button>') +
+          (r.status !== "paye" ? '<button class="btn btn-gold btn-sm" data-set="paye">Confirmer</button>' : '<button class="btn btn-ghost btn-sm" data-set="en_attente">Remettre à contacter</button>') +
           (r.status !== "annule" ? '<button class="btn btn-ghost btn-sm" data-set="annule">Annuler</button>' : "") +
         "</div></div>";
     }).join("");
@@ -88,10 +88,10 @@
   });
 
   $("#export").addEventListener("click", function () {
-    var head = ["Code", "Nom", "Téléphone", "E-mail", "Tickets", "Personnes", "Total FCFA", "Paiement", "Référence", "Statut", "Entrées", "Date"];
+    var head = ["Code", "Nom", "Téléphone", "E-mail", "Tickets", "Personnes", "Total FCFA", "Statut", "Entrées", "Date"];
     var rows = filtered().map(function (r) {
       return [r.code, r.full_name, r.phone, r.email || "", r.items.map(function (i) { return i.qty + " x " + i.label; }).join(" | "), r.persons, r.total,
-        PAY[r.payment_method] || r.payment_method, r.payment_ref || "", STATUS[r.status], Object.keys(r.checkins || {}).join(" "), new Date(r.created_at).toLocaleString("fr-FR")];
+        STATUS[r.status], Object.keys(r.checkins || {}).join(" "), new Date(r.created_at).toLocaleString("fr-FR")];
     });
     var csv = [head].concat(rows).map(function (row) { return row.map(function (v) { v = String(v); return /[";\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }).join(";"); }).join("\n");
     var a = document.createElement("a");
@@ -123,7 +123,7 @@
       if (navigator.vibrate) navigator.vibrate(res.result === "ok" ? 80 : [80, 60, 80]);
       if (res.result === "ok") showResult("r-ok", "Entrée validée", who);
       else if (res.result === "deja_entre") showResult("r-warn", "Déjà entré", who + "<br>Ce ticket a déjà été scanné à " + new Date(r.checkins[ev]).toLocaleTimeString("fr-FR"));
-      else if (res.result === "non_paye") showResult("r-bad", r.status === "annule" ? "Réservation annulée" : "Non payé", who);
+      else if (res.result === "non_paye") showResult("r-bad", r.status === "annule" ? "Réservation annulée" : "Non confirmé", who);
       else if (res.result === "autre_evenement") showResult("r-bad", "Mauvais événement", who + "<br>Ce ticket n'est pas valable pour cet événement.");
       else showResult("r-bad", "Ticket inconnu", esc(code));
       if (res.reservation) data = data.map(function (x) { return x.code === r.code ? r : x; });
