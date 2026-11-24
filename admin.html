@@ -46,7 +46,8 @@
   <p class="eyebrow">Harmonious Chorale</p>
   <h1 class="title-sm">Espace organisateur</h1>
   <form id="login-form">
-    <label class="field"><span>Code organisateur</span><input name="pin" type="password" required autocomplete="current-password"></label>
+    <label class="field"><span>Identifiant</span><input name="username" required autocomplete="username" autocapitalize="none" spellcheck="false"></label>
+    <label class="field"><span>Mot de passe</span><input name="password" type="password" required autocomplete="current-password"></label>
     <button class="btn btn-gold btn-block" type="submit">Entrer</button>
     <p class="form-error" id="login-error" role="alert"></p>
   </form>
@@ -54,7 +55,7 @@
 
 <div id="app" hidden>
   <header class="adm-top">
-    <h1>Harmonious · Organisateur</h1>
+    <h1>Harmonious · Organisateur <small id="me" class="muted" style="font-family:Montserrat,sans-serif;font-size:.8rem;font-weight:500"></small></h1>
     <button class="btn btn-ghost btn-sm" id="reload">Actualiser</button>
     <button class="btn btn-ghost btn-sm" id="logout">Quitter</button>
   </header>
@@ -62,6 +63,8 @@
     <div class="tabs" role="tablist">
       <button role="tab" aria-selected="true" data-tab="resa">Réservations</button>
       <button role="tab" aria-selected="false" data-tab="scan">Contrôle d'entrée</button>
+      <button role="tab" aria-selected="false" data-tab="compte">Mon compte</button>
+      <button role="tab" aria-selected="false" data-tab="equipe" id="tab-btn-equipe" hidden>Équipe</button>
     </div>
 
     <section id="tab-resa">
@@ -88,6 +91,37 @@
         </form>
         <div id="scan-result" aria-live="assertive"></div>
       </div>
+    </section>
+    <section id="tab-compte" hidden>
+      <div class="panel" style="max-width:460px">
+        <h2 class="title-sm">Changer mon mot de passe</h2>
+        <form id="pwd-form">
+          <label class="field"><span>Mot de passe actuel</span><input name="old" type="password" required autocomplete="current-password"></label>
+          <label class="field"><span>Nouveau mot de passe (10 caractères minimum)</span><input name="new1" type="password" required minlength="10" autocomplete="new-password"></label>
+          <label class="field"><span>Confirmer le nouveau mot de passe</span><input name="new2" type="password" required minlength="10" autocomplete="new-password"></label>
+          <button class="btn btn-gold" type="submit">Enregistrer</button>
+          <p class="form-error" id="pwd-msg" role="alert"></p>
+        </form>
+      </div>
+    </section>
+
+    <section id="tab-equipe" hidden>
+      <div class="panel" style="margin-bottom:16px">
+        <h2 class="title-sm">Ajouter ou modifier un membre</h2>
+        <form id="acc-form" class="toolbar" style="align-items:flex-end">
+          <label class="field" style="flex:1 1 160px;margin:0"><span>Identifiant</span><input name="username" required pattern="[a-z0-9._-]{3,32}" placeholder="ex. awa.k" autocapitalize="none"></label>
+          <label class="field" style="flex:1 1 160px;margin:0"><span>Nom affiché</span><input name="name" placeholder="Awa K."></label>
+          <label class="field" style="flex:1 1 160px;margin:0"><span>Mot de passe</span><input name="password" type="text" placeholder="10 caractères min." autocomplete="off"></label>
+          <select name="role" aria-label="Rôle"><option value="staff">Équipe</option><option value="admin">Administrateur</option></select>
+          <select name="active" aria-label="État"><option value="true">Actif</option><option value="false">Désactivé</option></select>
+          <button class="btn btn-gold btn-sm" type="submit">Enregistrer</button>
+        </form>
+        <p class="tiny muted" style="margin:.6rem 0 0">Pour modifier un compte existant, saisissez son identifiant. Laissez le mot de passe vide pour ne pas le changer.</p>
+        <p class="form-error" id="acc-msg" role="alert"></p>
+      </div>
+      <div class="list" id="accounts"></div>
+      <h2 class="title-sm" style="margin-top:24px">Journal des actions</h2>
+      <div class="list" id="audit"></div>
     </section>
   </div>
 </div>

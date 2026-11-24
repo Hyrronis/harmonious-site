@@ -49,6 +49,7 @@
   $("#open-invite").addEventListener("click", function () { openGate(true); });
   $("#open-silent").addEventListener("click", function () { openGate(false); });
   soundBtn.addEventListener("click", function () { setSound(music.paused); });
+  music.addEventListener("ended", function () { setSound(false); });
   // La vidéo du spot coupe la musique de fond
   $(".video-frame video").addEventListener("play", function () { setSound(false); });
 
