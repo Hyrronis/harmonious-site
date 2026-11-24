@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Harmonious Chorale Ghana · Noël à Abidjan</title>
+<meta name="description" content="Harmonious Chorale (Ghana) en concert live à Abidjan : Dîner Gala le 24 décembre à l'Hôtel Galaxie et Grand Concert le 25 décembre au Stade de l'Université Méthodiste de Cocody. Réservez vos tickets.">
+<meta property="og:title" content="Harmonious Chorale Ghana · Dîner Gala & Grand Concert à Abidjan">
+<meta property="og:description" content="24 décembre, Dîner Gala à l'Hôtel Galaxie · 25 décembre, Grand Concert à Cocody. Réservez votre ticket en ligne.">
+<meta property="og:image" content="/media/og.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#120806">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,900&family=Playfair+Display:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<!-- Écran d'ouverture -->
+<div id="gate" class="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <div class="gate-bg" style="background-image:url('/media/photo6.jpg')"></div>
+  <div class="gate-inner">
+    <p class="eyebrow">AJ Group Événementiel présente</p>
+    <h1 id="gate-title" class="gate-title"><span>Harmonious</span><span>Chorale</span><em>Ghana</em></h1>
+    <p class="gate-sub">En concert live · Noël 2026 à Abidjan</p>
+    <button class="btn btn-gold btn-lg" id="open-invite">Ouvrir mon invitation</button>
+    <button class="link-quiet" id="open-silent">Entrer sans le son</button>
+    <p class="gate-hint">♪ Son activé à l'ouverture</p>
+  </div>
+  <div class="kente kente-bottom" aria-hidden="true"></div>
+</div>
+
+<header class="topbar" id="topbar">
+  <a href="#accueil" class="brand"><span class="brand-mark">H</span><span>Harmonious<small>Chorale · Ghana</small></span></a>
+  <nav class="nav" aria-label="Navigation principale">
+    <a href="#programme">Programme</a>
+    <a href="#galerie">Galerie</a>
+    <a href="#reserver">Réserver</a>
+    <a href="#mon-ticket">Mon ticket</a>
+  </nav>
+  <button class="sound" id="sound-toggle" aria-label="Activer la musique" aria-pressed="false">
+    <span class="eq"><i></i><i></i><i></i></span>
+  </button>
+  <a href="#reserver" class="btn btn-red btn-sm topbar-cta">Réserver</a>
+</header>
+
+<main>
+  <!-- Accueil -->
+  <section id="accueil" class="hero">
+    <div class="hero-slides" aria-hidden="true">
+      <div class="slide" style="background-image:url('/media/photo1.jpg')"></div>
+      <div class="slide" style="background-image:url('/media/photo7.jpg')"></div>
+      <div class="slide" style="background-image:url('/media/photo3.jpg')"></div>
+      <div class="slide" style="background-image:url('/media/photo10.jpg')"></div>
+    </div>
+    <div class="hero-shade" aria-hidden="true"></div>
+    <div class="hero-content wrap">
+      <p class="eyebrow">AJ Group Événementiel présente</p>
+      <h2 class="hero-title"><span>Harmonious Chorale</span><strong>Ghana</strong></h2>
+      <p class="hero-tag">En concert live · Dîner Gala &amp; Grand Concert</p>
+      <div class="hero-dates">
+        <div><b>24</b><span>déc.<br>Dîner Gala</span></div>
+        <i aria-hidden="true"></i>
+        <div><b>25</b><span>déc.<br>Grand Concert</span></div>
+      </div>
+      <div class="countdown" id="countdown" aria-live="off">
+        <p class="countdown-label" id="countdown-label">Le Dîner Gala commence dans</p>
+        <div class="countdown-grid">
+          <div><b data-cd="d">--</b><span>jours</span></div>
+          <div><b data-cd="h">--</b><span>heures</span></div>
+          <div><b data-cd="m">--</b><span>min</span></div>
+          <div><b data-cd="s">--</b><span>sec</span></div>
+        </div>
+      </div>
+      <div class="hero-ctas">
+        <a href="#reserver" class="btn btn-gold btn-lg">Réserver mon ticket</a>
+        <a href="#acheter" class="btn btn-ghost btn-lg">Acheter en ligne</a>
+      </div>
+    </div>
+    <div class="kente kente-bottom" aria-hidden="true"></div>
+  </section>
+
+  <!-- Invitation -->
+  <section class="section invitation">
+    <div class="wrap narrow">
+      <div class="card-invite">
+        <p class="eyebrow center">Vous êtes invité(e)</p>
+        <h2 class="title-serif center">Un réveillon et un Noël inoubliables</h2>
+        <p class="lead center">Rejoignez-nous pour un réveillon et un Noël où nos voix et nos cœurs s'uniront pour célébrer Jésus dans la joie, la louange et l'adoration. Des dizaines de voix venues du Ghana, une seule harmonie.</p>
+        <blockquote class="verse">
+          <p>« Par lui, offrons sans cesse à Dieu un sacrifice de louange, c'est-à-dire le fruit de lèvres qui confessent son nom. »</p>
+          <cite>Hébreux 13:15</cite>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- Programme -->
+  <section id="programme" class="section">
+    <div class="wrap">
+      <p class="eyebrow center">Le programme</p>
+      <h2 class="title center">Deux soirées, une seule harmonie</h2>
+      <div class="events">
+        <article class="event" data-event="gala">
+          <div class="event-media" style="background-image:url('/media/photo4.jpg')"><span class="pill">Dîner Gala</span></div>
+          <div class="event-body">
+            <p class="event-day">Jeudi</p>
+            <h3 class="event-date">24 décembre 2026</h3>
+            <p class="event-time">21h00 GMT · Réveillon de Noël</p>
+            <p class="event-place"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>Hôtel Galaxie, Abidjan</p>
+            <ul class="prices">
+              <li><span>Ticket individuel</span><b>15 000 FCFA</b></li>
+              <li><span>Ticket couple</span><b>25 000 FCFA</b></li>
+            </ul>
+            <div class="event-actions">
+              <a class="btn btn-gold" data-buy="gala" target="_blank" rel="noopener">Acheter en ligne</a>
+              <a class="btn btn-ghost" href="#reserver" data-reserve="gala">Réserver ici</a>
+            </div>
+            <a class="link-map" data-map="gala" target="_blank" rel="noopener">Itinéraire →</a>
+          </div>
+        </article>
+        <article class="event" data-event="concert">
+          <div class="event-media" style="background-image:url('/media/photo5.jpg')"><span class="pill">Grand Concert</span></div>
+          <div class="event-body">
+            <p class="event-day">Vendredi</p>
+            <h3 class="event-date">25 décembre 2026</h3>
+            <p class="event-time">16h00 GMT · Jour de Noël</p>
+            <p class="event-place"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>Stade de l'Université Méthodiste, Cocody</p>
+            <ul class="prices">
+              <li><span>Grand public</span><b>5 000 FCFA</b></li>
+              <li><span>VIP</span><b>10 000 FCFA</b></li>
+            </ul>
+            <div class="event-actions">
+              <a class="btn btn-gold" data-buy="concert" target="_blank" rel="noopener">Acheter en ligne</a>
+              <a class="btn btn-ghost" href="#reserver" data-reserve="concert">Réserver ici</a>
+            </div>
+            <a class="link-map" data-map="concert" target="_blank" rel="noopener">Itinéraire →</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Achat en ligne -->
+  <section id="acheter" class="section buy">
+    <div class="wrap">
+      <div class="buy-box">
+        <div>
+          <p class="eyebrow">Paiement en ligne immédiat</p>
+          <h2 class="title">Achetez votre ticket sur MonPass AJ</h2>
+          <p class="muted">La billetterie officielle d'AJ Group. Payez en ligne et recevez votre ticket tout de suite. Vous pouvez aussi scanner les QR codes de l'affiche.</p>
+        </div>
+        <div class="buy-links">
+          <a class="buy-link" data-buy="gala" target="_blank" rel="noopener">
+            <span class="buy-k">Dîner Gala</span><span class="buy-d">Jeu. 24 déc. · Hôtel Galaxie</span><span class="buy-go">Acheter →</span>
+          </a>
+          <a class="buy-link" data-buy="concert" target="_blank" rel="noopener">
+            <span class="buy-k">Grand Concert</span><span class="buy-d">Ven. 25 déc. · Cocody</span><span class="buy-go">Acheter →</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Spot -->
+  <section class="section spot">
+    <div class="wrap narrow">
+      <p class="eyebrow center">Le spot officiel</p>
+      <h2 class="title center">Des dizaines de voix, une seule harmonie</h2>
+      <div class="video-frame">
+        <video src="/media/spot.mp4" poster="/media/spot-poster.jpg" controls playsinline preload="none"></video>
+      </div>
+    </div>
+  </section>
+
+  <!-- Galerie -->
+  <section id="galerie" class="section">
+    <div class="wrap">
+      <p class="eyebrow center">La chorale</p>
+      <h2 class="title center">Harmonious Chorale en images</h2>
+      <div class="gallery" id="gallery">
+        <button data-src="/media/photo1.jpg"><img src="/media/photo1.jpg" alt="La chorale sur scène sous les projecteurs" loading="lazy"></button>
+        <button data-src="/media/photo6.jpg" class="tall"><img src="/media/photo6.jpg" alt="Choristes en aube dorée devant un décor rouge" loading="lazy"></button>
+        <button data-src="/media/photo2.jpg"><img src="/media/photo2.jpg" alt="Choristes et cuivres pendant un concert" loading="lazy"></button>
+        <button data-src="/media/photo3.jpg"><img src="/media/photo3.jpg" alt="Concert de Noël avec sapin lumineux" loading="lazy"></button>
+        <button data-src="/media/photo8.jpg"><img src="/media/photo8.jpg" alt="Solistes de la chorale au micro" loading="lazy"></button>
+        <button data-src="/media/photo7.jpg"><img src="/media/photo7.jpg" alt="La chorale en concert en plein air" loading="lazy"></button>
+        <button data-src="/media/photo9.jpg"><img src="/media/photo9.jpg" alt="La chorale en blanc sur une grande scène" loading="lazy"></button>
+        <button data-src="/media/photo11.jpg"><img src="/media/photo11.jpg" alt="Choristes chantant avec leur partition" loading="lazy"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Réservation -->
+  <section id="reserver" class="section reserve">
+    <div class="wrap">
+      <p class="eyebrow center">Billetterie</p>
+      <h2 class="title center">Réservez vos tickets</h2>
+      <p class="muted center sub">Choisissez vos tickets, payez par Mobile Money et recevez votre pass QR à présenter à l'entrée.</p>
+
+      <form id="booking-form" class="booking" novalidate>
+        <div class="booking-tickets">
+          <fieldset class="ticket-group" data-group="gala">
+            <legend><span>Dîner Gala</span><small>Jeu. 24 déc. · 21h · Hôtel Galaxie</small></legend>
+            <div class="ticket-rows"></div>
+          </fieldset>
+          <fieldset class="ticket-group" data-group="concert">
+            <legend><span>Grand Concert</span><small>Ven. 25 déc. · 16h · Cocody</small></legend>
+            <div class="ticket-rows"></div>
+          </fieldset>
+        </div>
+
+        <div class="booking-side">
+          <fieldset class="panel">
+            <legend class="panel-title">Vos coordonnées</legend>
+            <label class="field"><span>Nom complet</span><input name="name" autocomplete="name" required minlength="3" maxlength="120" placeholder="Ex. Kouassi Aya"></label>
+            <label class="field"><span>Téléphone (WhatsApp de préférence)</span><input name="phone" type="tel" autocomplete="tel" required inputmode="tel" placeholder="07 00 00 00 00"></label>
+            <label class="field"><span>E-mail <em>(facultatif)</em></span><input name="email" type="email" autocomplete="email" placeholder="vous@exemple.com"></label>
+          </fieldset>
+
+          <fieldset class="panel">
+            <legend class="panel-title">Moyen de paiement</legend>
+            <div class="paylist" id="paylist"></div>
+          </fieldset>
+
+          <div class="panel summary">
+            <div class="summary-lines" id="summary-lines"><p class="muted">Aucun ticket sélectionné.</p></div>
+            <div class="summary-total"><span>Total</span><b id="total">0 FCFA</b></div>
+            <p class="form-error" id="form-error" role="alert"></p>
+            <button class="btn btn-gold btn-lg btn-block" type="submit" id="submit-btn">Confirmer ma réservation</button>
+            <p class="tiny muted">Votre réservation est enregistrée tout de suite. Le ticket est validé dès réception du paiement.</p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Mon ticket -->
+  <section id="mon-ticket" class="section ticket-section">
+    <div class="wrap narrow">
+      <div id="ticket-view" hidden></div>
+
+      <div class="panel lookup" id="lookup">
+        <p class="eyebrow">Déjà réservé ?</p>
+        <h2 class="title-sm">Retrouver mon ticket</h2>
+        <form id="lookup-form" class="lookup-form">
+          <label class="field"><span>Code de réservation</span><input name="code" required placeholder="HC-XXXXXX" autocapitalize="characters"></label>
+          <label class="field"><span>Téléphone utilisé</span><input name="phone" type="tel" required inputmode="tel" placeholder="07 00 00 00 00"></label>
+          <button class="btn btn-ghost" type="submit">Afficher mon ticket</button>
+        </form>
+        <p class="form-error" id="lookup-error" role="alert"></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="kente" aria-hidden="true"></div>
+  <div class="wrap footer-inner">
+    <div>
+      <p class="brand-foot">Harmonious Chorale · Ghana</p>
+      <p class="muted">Une organisation AJ Group Événementiel · @AJ GROUP</p>
+    </div>
+    <div class="footer-contact">
+      <a href="tel:+2250777877533" class="btn btn-ghost btn-sm">☎ 07 77 87 75 33</a>
+      <a href="https://wa.me/2250777877533" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">WhatsApp</a>
+    </div>
+  </div>
+  <p class="tiny muted center footer-verse">Hébreux 13:15 · « Offrons sans cesse à Dieu un sacrifice de louange »</p>
+</footer>
+
+<div class="lightbox" id="lightbox" hidden><button class="lb-close" aria-label="Fermer">×</button><img alt=""></div>
+<audio id="music" src="/media/musique.mp3" loop preload="none"></audio>
+
+<script src="/vendor/qrcode.js"></script>
+<script src="/config.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>
