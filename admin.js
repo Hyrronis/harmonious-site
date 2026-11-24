@@ -154,16 +154,7 @@
 
   // ---------- Contrôle d'entrée ----------
   var scanner = null, busy = false, lastCode = "", lastAt = 0;
-  function stopScan() { if (scanner) { scanner.stop().catch(function () {}); scanner = null; $("#scan-start").textContent = "Ouvrir la caméra"; } }
-  $("#scan-start").addEventListener("click", function () {
-    if (scanner) return stopScan();
-    scanner = new Html5Qrcode("reader");
-    scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 240 }, function (text) {
-      var now = Date.now(); if (busy || (text === lastCode && now - lastAt < 4000)) return;
-      lastCode = text; lastAt = now; check(text);
-    }).then(function () { $("#scan-start").textContent = "Fermer la caméra"; })
-      .catch(function () { scanner = null; showResult("r-bad", "Caméra indisponible", "Autorisez l'accès à la caméra ou saisissez le code."); });
-  });
+  function stopScan() {}
   $("#manual-form").addEventListener("submit", function (e) { e.preventDefault(); var v = e.target.code.value.trim(); if (v) check(v); e.target.code.value = ""; });
 
   function showResult(cls, title, text) { $("#scan-result").innerHTML = '<div class="result ' + cls + '"><h3>' + esc(title) + "</h3><p>" + text + "</p></div>"; }
@@ -175,10 +166,10 @@
       var r = res.reservation, who = r ? "<b>" + esc(r.full_name) + "</b> · " + esc(r.code) + "<br>" + r.items.filter(function (i) { return i.event === ev; }).map(function (i) { return i.qty + " × " + esc(i.label) + " (" + i.persons + " pers.)"; }).join("<br>") : esc(code);
       if (navigator.vibrate) navigator.vibrate(res.result === "ok" ? 80 : [80, 60, 80]);
       if (res.result === "ok") showResult("r-ok", "Entrée validée", who);
-      else if (res.result === "deja_entre") showResult("r-warn", "Déjà entré", who + "<br>Ce ticket a déjà été scanné à " + new Date(r.checkins[ev]).toLocaleTimeString("fr-FR"));
+      else if (res.result === "deja_entre") showResult("r-warn", "Déjà entré", who + "<br>Cette personne a déjà été pointée à " + new Date(r.checkins[ev]).toLocaleTimeString("fr-FR"));
       else if (res.result === "non_paye") showResult("r-bad", r.status === "annule" ? "Réservation annulée" : "Non confirmé", who);
-      else if (res.result === "autre_evenement") showResult("r-bad", "Mauvais événement", who + "<br>Ce ticket n'est pas valable pour cet événement.");
-      else showResult("r-bad", "Ticket inconnu", esc(code));
+      else if (res.result === "autre_evenement") showResult("r-bad", "Mauvais événement", who + "<br>Cette réservation n'est pas valable pour cet événement.");
+      else showResult("r-bad", "Code inconnu", esc(code));
       if (res.reservation) data = data.map(function (x) { return x.code === r.code ? r : x; });
     }).catch(function (err) { showResult("r-bad", "Erreur", esc(err.message)); })
       .then(function () { busy = false; });

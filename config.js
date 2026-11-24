@@ -3,6 +3,8 @@ window.HC_CONFIG = {
   supabaseUrl: "https://ppkjipikcsdlbpcykmqn.supabase.co",
   supabaseKey: "sb_publishable_OWqKfeZ1z--YbJ-VSlGi6w_a_W9lo2I",
 
+  // Date limite de paiement affichée aux clients (À CONFIRMER)
+  paymentDeadline: "samedi 19 décembre 2026",
   contactPhone: "07 77 87 75 33",
   whatsapp: "2250777877533",
 

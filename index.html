@@ -39,7 +39,7 @@
     <a href="#programme">Programme</a>
     <a href="#galerie">Galerie</a>
     <a href="#reserver">Réserver</a>
-    <a href="#mon-ticket">Mon ticket</a>
+    <a href="#mon-ticket">Ma réservation</a>
   </nav>
   <button class="sound" id="sound-toggle" aria-label="Activer la musique" aria-pressed="false">
     <span class="eq"><i></i><i></i><i></i></span>
@@ -226,7 +226,7 @@
             <div class="summary-total"><span>Total</span><b id="total">0 FCFA</b></div>
             <p class="form-error" id="form-error" role="alert"></p>
             <button class="btn btn-gold btn-lg btn-block" type="submit" id="submit-btn">Confirmer ma réservation</button>
-            <p class="tiny muted">Aucun paiement en ligne. Notre équipe vous contactera par téléphone pour finaliser.</p>
+            <p class="tiny muted">Aucun paiement en ligne. Notre équipe vous contactera par téléphone. Paiement à effectuer au plus tard le <span data-deadline></span>.</p>
           </div>
         </div>
       </form>
@@ -240,11 +240,11 @@
 
       <div class="panel lookup" id="lookup">
         <p class="eyebrow">Déjà réservé ?</p>
-        <h2 class="title-sm">Retrouver mon ticket</h2>
+        <h2 class="title-sm">Retrouver ma réservation</h2>
         <form id="lookup-form" class="lookup-form">
           <label class="field"><span>Code de réservation</span><input name="code" required placeholder="HC-XXXXXX" autocapitalize="characters"></label>
           <label class="field"><span>Téléphone utilisé</span><input name="phone" type="tel" required inputmode="tel" placeholder="07 00 00 00 00"></label>
-          <button class="btn btn-ghost" type="submit">Afficher mon ticket</button>
+          <button class="btn btn-ghost" type="submit">Afficher ma réservation</button>
         </form>
         <p class="form-error" id="lookup-error" role="alert"></p>
       </div>
@@ -270,7 +270,6 @@
 <div class="lightbox" id="lightbox" hidden><button class="lb-close" aria-label="Fermer">×</button><img alt=""></div>
 <audio id="music" src="/media/musique-complete.mp3" preload="none"></audio>
 
-<script src="/vendor/qrcode.js"></script>
 <script src="/config.js"></script>
 <script src="/app.js"></script>
 </body>

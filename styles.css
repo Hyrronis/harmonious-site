@@ -208,12 +208,8 @@ button{font:inherit;cursor:pointer}
 .pass-head::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:6px;background:var(--kente)}
 .pass-head p{margin:0}
 .pass-head h3{margin:.2rem 0 0;font-family:Montserrat,sans-serif;font-style:italic;font-weight:900;text-transform:uppercase;font-size:1.6rem;line-height:1}
-.pass-body{display:grid;grid-template-columns:1fr auto;gap:22px;padding:26px 24px}
+.pass-body{display:grid;grid-template-columns:1fr;gap:22px;padding:26px 24px}
 @media (max-width:600px){.pass-body{grid-template-columns:1fr}}
-.pass-qr{background:#fff;padding:12px;border-radius:14px;align-self:start;justify-self:center;text-align:center}
-.pass-qr img,.pass-qr canvas{width:180px;height:180px;image-rendering:pixelated}
-.pass-qr small{display:block;color:#2a1406;font-weight:800;letter-spacing:.1em;margin-top:6px;font-family:Cinzel,serif}
-.pass-qr.dim img{opacity:.25;filter:blur(1px)}
 .pass-info dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 14px}
 .pass-info dt{color:var(--muted);font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;padding-top:2px}
 .pass-info dd{margin:0;font-weight:600}

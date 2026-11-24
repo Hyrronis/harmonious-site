@@ -82,11 +82,9 @@
       <div class="scan-box">
         <div class="toolbar">
           <select id="scan-event" aria-label="Événement contrôlé"><option value="gala">Dîner Gala · 24 déc.</option><option value="concert">Grand Concert · 25 déc.</option></select>
-          <button class="btn btn-gold btn-sm" id="scan-start">Ouvrir la caméra</button>
         </div>
-        <div id="reader"></div>
         <form class="toolbar" id="manual-form">
-          <input name="code" placeholder="Saisir un code HC-XXXXXX" autocapitalize="characters">
+          <input name="code" placeholder="Code HC-XXXXXX de la personne" autocapitalize="characters">
           <button class="btn btn-ghost btn-sm" type="submit">Valider</button>
         </form>
         <div id="scan-result" aria-live="assertive"></div>
@@ -126,7 +124,6 @@
   </div>
 </div>
 
-<script src="/vendor/html5-qrcode.min.js"></script>
 <script src="/config.js"></script>
 <script src="/admin.js"></script>
 </body>

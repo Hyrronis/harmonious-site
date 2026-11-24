@@ -53,6 +53,8 @@
   // La vidéo du spot coupe la musique de fond
   $(".video-frame video").addEventListener("play", function () { setSound(false); });
 
+  $$("[data-deadline]").forEach(function (el) { el.textContent = C.paymentDeadline; });
+
   // ---------- Barre du haut ----------
   var topbar = $("#topbar");
   function onScroll() { topbar.classList.toggle("solid", window.scrollY > 40); }
@@ -160,12 +162,7 @@
   });
 
   // ---------- Affichage du pass ----------
-  var STATUS = { en_attente: "En attente de confirmation", paye: "Ticket confirmé", annule: "Réservation annulée" };
-
-  function qrDataUrl(text) {
-    var qr = qrcode(0, "M"); qr.addData(text); qr.make();
-    return qr.createDataURL(8, 2);
-  }
+  var STATUS = { en_attente: "En attente de paiement", paye: "Réservation confirmée", annule: "Réservation annulée" };
 
   function showTicket(r, fresh) {
     var view = $("#ticket-view");
@@ -179,12 +176,12 @@
       payBlock = '<div class="pay-steps"><h4>Et maintenant ?</h4><ol>' +
         "<li>Votre réservation est bien enregistrée sous le code <b>" + esc(r.code) + "</b>.</li>" +
         "<li>Notre équipe vous contactera au <b>" + esc(r.phone) + "</b> pour finaliser votre réservation.</li>" +
-        "<li>Une fois confirmé, votre QR code deviendra votre ticket d'entrée.</li></ol>" +
+        "<li>Le paiement est à effectuer au plus tard le <b>" + esc(C.paymentDeadline) + "</b>. Passé cette date, la réservation sera annulée.</li></ol>" +
         '<p class="tiny muted" style="margin:0">Une question ? Appelez le <a href="tel:+225' + esc(C.contactPhone.replace(/\D/g, "")) + '">' + esc(C.contactPhone) + '</a> ou <a href="https://wa.me/' + C.whatsapp + "?text=" + waText + '" target="_blank" rel="noopener">écrivez sur WhatsApp</a>.</p></div>';
     }
     view.innerHTML =
       '<article class="pass" aria-labelledby="pass-title">' +
-        '<div class="pass-head"><p class="eyebrow" style="color:#ffe6a8;margin:0">' + (fresh ? "Réservation enregistrée" : "Votre pass") + "</p>" +
+        '<div class="pass-head"><p class="eyebrow" style="color:#ffe6a8;margin:0">' + (fresh ? "Réservation enregistrée" : "Votre réservation") + "</p>" +
         '<h3 id="pass-title">Harmonious Chorale · Ghana</h3></div>' +
         '<div class="pass-body"><div class="pass-info">' +
           '<span class="status ' + r.status + '">' + STATUS[r.status] + "</span>" +
@@ -194,20 +191,16 @@
           "<dt>Total</dt><dd>" + fmt(r.total) + "</dd>" +
           "<dt>Quand</dt>" + evLines.join("<dt></dt>") +
           "</dl></div>" +
-          '<div class="pass-qr' + (r.status === "paye" ? "" : " dim") + '"><img src="' + qrDataUrl(r.code) + '" alt="QR code du ticket ' + esc(r.code) + '"><small>' + esc(r.code) + "</small></div>" +
         "</div>" + payBlock +
         '<div class="pass-actions">' +
           '<button class="btn btn-ghost btn-sm" id="refresh-pass">Actualiser le statut</button>' +
-          '<button class="btn btn-ghost btn-sm" id="save-pass">Enregistrer l\'image du ticket</button>' +
         "</div>" +
-        (r.status === "paye" ? '<p class="tiny muted" style="padding:0 24px 22px;margin:0">Présentez ce QR code à l\'entrée. Une capture d\'écran suffit.</p>' :
-          r.status === "en_attente" ? '<p class="tiny muted" style="padding:0 24px 22px;margin:0">Le QR code sera accepté à l\'entrée une fois la réservation confirmée par notre équipe.</p>' : "") +
+        (r.status === "paye" ? '<p class="tiny muted" style="padding:0 24px 22px;margin:0">Votre réservation est confirmée. Donnez votre nom ou votre code à l\'entrée.</p>' : "") +
       "</article>";
     view.hidden = false;
     $("#lookup").querySelector(".eyebrow").textContent = "Une autre réservation ?";
 
     $("#refresh-pass").addEventListener("click", function () { loadTicket(r.code, r.phone, true); });
-    $("#save-pass").addEventListener("click", function () { downloadPass(r); });
     if (fresh) document.getElementById("mon-ticket").scrollIntoView({ behavior: "smooth" });
   }
 
@@ -230,40 +223,6 @@
 
   var last = store.get();
   if (last && last.code) loadTicket(last.code, last.phone, true);
-
-  // ---------- Image du ticket ----------
-  function downloadPass(r) {
-    var W = 1080, H = 1500, c = document.createElement("canvas"); c.width = W; c.height = H;
-    var x = c.getContext("2d");
-    var g = x.createLinearGradient(0, 0, 0, H); g.addColorStop(0, "#2b120c"); g.addColorStop(1, "#120806");
-    x.fillStyle = g; x.fillRect(0, 0, W, H);
-    x.fillStyle = "#b8141f"; x.fillRect(0, 0, W, 260);
-    var kc = ["#e3b24f", "#111", "#1d7a3e", "#111", "#b8141f", "#111"], kw = [18, 4, 12, 4, 18, 4];
-    for (var px = 0, i = 0; px < W; i++) { x.fillStyle = kc[i % 6]; x.fillRect(px, 260, kw[i % 6] * 1.5, 18); px += kw[i % 6] * 1.5; }
-    x.textAlign = "center"; x.fillStyle = "#ffe6a8"; x.font = "600 30px Montserrat, sans-serif";
-    x.fillText("AJ GROUP ÉVÉNEMENTIEL PRÉSENTE", W / 2, 90);
-    x.fillStyle = "#fff"; x.font = "italic 900 74px Montserrat, sans-serif";
-    x.fillText("HARMONIOUS CHORALE", W / 2, 180);
-    x.fillStyle = "#f6d58a"; x.font = "italic 900 48px Montserrat, sans-serif"; x.fillText("GHANA", W / 2, 235);
-    var img = new Image();
-    img.onload = function () {
-      x.fillStyle = "#fff"; x.fillRect(W / 2 - 230, 330, 460, 460);
-      x.drawImage(img, W / 2 - 210, 350, 420, 420);
-      x.fillStyle = "#f6d58a"; x.font = "800 64px Cinzel, serif"; x.fillText(r.code, W / 2, 880);
-      x.fillStyle = r.status === "paye" ? "#3fbf6d" : r.status === "annule" ? "#e2514a" : "#f0a63a";
-      x.font = "800 34px Montserrat, sans-serif"; x.fillText(STATUS[r.status].toUpperCase(), W / 2, 940);
-      x.fillStyle = "#f7ecd6"; x.font = "700 40px Montserrat, sans-serif"; x.fillText(r.full_name, W / 2, 1020);
-      x.font = "500 32px Montserrat, sans-serif"; x.fillStyle = "#c9b59a";
-      var y = 1080;
-      r.items.forEach(function (it) { x.fillText(it.qty + " × " + it.label, W / 2, y); y += 46; });
-      x.fillText("Total : " + fmt(r.total), W / 2, y + 10);
-      x.font = "500 28px Montserrat, sans-serif";
-      x.fillText("Présentez ce QR code à l'entrée · Infos : " + C.contactPhone, W / 2, H - 60);
-      var a = document.createElement("a");
-      a.download = "ticket-harmonious-" + r.code + ".png"; a.href = c.toDataURL("image/png"); a.click();
-    };
-    img.src = qrDataUrl(r.code);
-  }
 
   // ---------- Apparition au défilement ----------
   if ("IntersectionObserver" in window) {
